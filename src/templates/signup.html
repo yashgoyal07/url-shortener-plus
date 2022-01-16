@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Sign Up
+{% endblock %}
+
+{% block login %}
+<li class="nav-item">
+    <a class="nav-link" href="/login">LOGIN</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="/signup">SIGNUP</a>
+</li>
+{% endblock %}
+
+{% block body %}
+
+<!-- Div For Sign Up Card -->
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-8">
+            <div class="card bg-card login-controller" style="width: 20rem;">
+                <div class="card-body">
+                    <!-- Sign Up Form -->
+                    <form action="/signup" method="post" style="text-align: center">
+                        <label>Name:</label><br>
+                        <input type="text" class="form-control input_form" name="name"><br>
+                        <label>Email:</label><br>
+                        <input type="email" class="form-control input_form" name="email" required><br>
+                        <label>Mobile:</label><br>
+                        <input type="tel" class="form-control input_form" name="mobile"><br>
+                        <label>Password:</label><br>
+                        <input type="password" class="form-control input_form" name="password" required><br>
+                        <input type="submit" class="btn btn-outline-light btn-block" value="Sign Up">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

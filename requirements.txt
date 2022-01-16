@@ -1,0 +1,4 @@
+Flask==1.1.2
+Jinja2==2.11.2
+mysql-connector-python==8.0.23
+redis==3.5.3

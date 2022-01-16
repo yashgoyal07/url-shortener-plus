@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Panel
+{% endblock %}
+
+{% block login %}
+{% if cus_status %}
+<li class="nav-item">
+    <a class="nav-link" href="/logout">LOGOUT</a>
+</li>
+{% else %}
+<li class="nav-item">
+    <a class="nav-link" href="/login">LOGIN</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="/signup">SIGNUP</a>
+</li>
+{% endif %}
+{% endblock %}
+
+{% block body %}
+
+<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+
+{% if slink_data %}
+    {% for card in slink_data %}
+    <div class="col-md-10 offset-md-1 mt-10">
+        <div class="card bg-card">
+            <div class="card-body">
+                <p class="card-text">{{ card.get('created') }}</p>
+                <p><a href="{{ card.get('long_link') }}" target="_blank" class="card-text">{{ card.get('long_link') }}</a></p>
+                <hr/>
+                <a href="{{ card.get('slink') }}" target="_blank" id="shortlink">http://127.0.0.1:5000/{{ card.get('slink') }}</a>
+                <button type="button" onclick="copyToClipboard('#shortlink')" class="ml-10 btn btn-outline-warning btn-sm">Copy</button>
+                <button type="button" class="ml-10 btn btn-outline-warning btn-sm">Delete</button>
+            </div>
+        </div>
+    </div>
+    <br>
+    {% endfor %}
+{% else %}
+{% endif %}
+
+<script>
+//Get the button
+var mybutton = document.getElementById("myBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+
+function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+}
+
+</script>
+
+{% endblock %}

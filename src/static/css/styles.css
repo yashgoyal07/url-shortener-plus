@@ -1,0 +1,169 @@
+body{
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    font-family: 'Raleway', sans-serif;
+    color: #fff;
+}
+
+.banner{
+    height: 100vh;
+    width: 100%;
+    background: url('../img/overlay.png'), url('../img/banner.jpeg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.banner .navbar{
+    margin-top: 2%;
+}
+
+.banner .navbar-brand{
+    color: #aaa;
+    font-size: 1.8em;
+    font-weight: 700;
+    margin-left: 8%;
+}
+
+.banner .navl{
+    margin-right: 10%;
+}
+
+.banner .navl li .nav-link{
+    color: #aaa;
+    font-size: 1.2em;
+    font-weight: 700;
+    margin-left: 10%;
+}
+
+.banner .navl li a:hover{
+    color: #fff;
+}
+
+.banner .info{
+     margin-top:10%;
+     transform: translateY(-10%);
+}
+
+.banner .info h1{
+    font-size: 2.5em;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+.banner .info p{
+    font-size: 2em;
+    font-weight: 500;
+    color: #aaa;
+    letter-spacing: 2px;
+}
+
+.banner .info a{
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+
+.bg-card {
+    background-color: rgba(0,0,0,0.5);
+}
+
+.input_form {
+    background-color: rgba(0,0,0,0.1);
+    border: none;
+    border-bottom: 2px solid white;
+    letter-spacing: 1px;
+    color: #aaa;
+}
+
+.input_form:focus {
+    background-color: rgba(0,0,0,0.1);
+    border: none;
+    border-bottom: 2px solid white;
+    box-shadow: none;
+    letter-spacing: 1px;
+    color: #aaa;
+}
+
+.login_info{
+     margin-top:17%;
+     transform: translateY(-17%);
+}
+
+.signup_info{
+     margin-top:3%;
+     transform: translateY(-3%);
+}
+
+.mt-10{
+    margin-top: 10px;
+}
+
+#myBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  width: 60px;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background-color: rgba(0,0,0,0.5);
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+#myBtn:hover {
+  background-color: #555;
+}
+
+.card-body a{
+    font-size: 14px;
+    text-decoration: none;
+    color: #aaa;
+    font-weight: 400;
+}
+
+.card-body a:hover{
+    font-size: 14px;
+    text-decoration: none;
+    color: #aaa;
+    font-weight: 400;
+}
+
+#shortlink{
+    color: Yellow;
+    font-weight: 700;
+}
+
+.ml-10{
+    margin-left: 10px;
+}
+
+#reglink{
+    color: Skyblue;
+    font-weight: 700;
+}
+
+.ml-475{
+    margin-left: 475px;
+}
+
+.login-controller{
+    position: absolute;
+    top: 15vh;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.signup-controller{
+    position: absolute;
+    top: 15vh;
+    padding: 20px;
+    border-radius: 10px;
+}
