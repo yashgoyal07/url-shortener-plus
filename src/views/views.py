@@ -3,7 +3,7 @@ import uuid
 import logging
 from flask import render_template, request, session, flash, redirect, url_for
 from application import app
-from helpers.utils import is_customer, short_code_generator, is_visitor
+from helpers.utils import is_registered_customer, short_code_generator, is_customer
 from controllers.links_controller import LinksController
 from controllers.customers_controller import CustomersController
 
@@ -11,7 +11,7 @@ from controllers.customers_controller import CustomersController
 app.secret_key = b'\xce\xdd(B\xdd\xf1\x19\x04\x8c\xf0 BV\x93e\x8c'
 
 
-@app.route('/<slink_id>')
+@app.route('/sl/<slink_id>')
 def redirection(slink_id):
     try:
         start_time = time.time()
@@ -20,7 +20,7 @@ def redirection(slink_id):
         print(f'time taken by cache {time_taken} ms')
 
         if result:
-            return redirect(result)
+            return redirect(result.decode())
 
         start = time.time()
         long_link = LinksController().find_long_link(slink_id)
@@ -40,10 +40,10 @@ def redirection(slink_id):
 @app.route('/')
 def slink():
     try:
-        if is_customer():
+        if is_registered_customer():
             cus_id = session['cus_id']
             return render_template('slink.html', customer_id=cus_id)
-        if not is_visitor():
+        if not is_customer():
             cus_id = uuid.uuid4().hex
             CustomersController().create_user(cus_id=cus_id)
             session['cus_id'] = cus_id
@@ -55,7 +55,7 @@ def slink():
 
 @app.route('/slink_it', methods=['POST'])
 def slink_it():
-    if is_customer() or is_visitor():
+    if is_registered_customer() or is_customer():
         long_link = request.form.get('long_link')
         if long_link:
             try:
@@ -75,11 +75,11 @@ def slink_it():
 
 @app.route('/panel')
 def panel():
-    if is_customer() or is_visitor():
+    if is_registered_customer() or is_customer():
         try:
             customer_id = session['cus_id']
             result = LinksController().show_slink(customer_id=customer_id)
-            if not is_customer():
+            if not is_registered_customer():
                 return render_template('panel.html', slink_data=result)
             customer_status = session['Registered']
             return render_template('panel.html', cus_status=customer_status, slink_data=result)
@@ -91,7 +91,7 @@ def panel():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if is_customer():
+    if is_registered_customer():
         return redirect('panel')
     if request.method == 'POST':
         try:
@@ -129,7 +129,7 @@ def logout():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    if is_customer():
+    if is_registered_customer():
         return redirect('panel')
     if request.method == 'POST':
         try:
@@ -145,7 +145,7 @@ def signup():
 
             result = CustomersController().check_customer(email=email.lower())
             if not result:
-                if is_visitor():
+                if is_customer():
                     CustomersController().update_customer(name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password, cus_id=session['cus_id'])
                     session['Registered'] = 'Y'
                 else:
