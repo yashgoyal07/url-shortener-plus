@@ -31,7 +31,7 @@ Panel
                 <p class="card-text">{{ card.get('created') }}</p>
                 <p><a href="{{ card.get('long_link') }}" target="_blank" class="card-text">{{ card.get('long_link') }}</a></p>
                 <hr/>
-                <a href="{{ card.get('slink') }}" target="_blank" id="shortlink">http://127.0.0.1:5000/{{ card.get('slink') }}</a>
+                <a href="sl/{{ card.get('slink') }}" target="_blank" id="shortlink">http://127.0.0.1:5000/sl/{{ card.get('slink') }}</a>
                 <button type="button" onclick="copyToClipboard('#shortlink')" class="ml-10 btn btn-outline-warning btn-sm">Copy</button>
                 <button type="button" class="ml-10 btn btn-outline-warning btn-sm">Delete</button>
             </div>
