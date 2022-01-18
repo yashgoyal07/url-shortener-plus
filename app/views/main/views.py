@@ -38,7 +38,7 @@ def slink():
     try:
         if is_registered_customer():
             cus_id = session['cus_id']
-            return render_template('slink.html', customer_id=cus_id)
+            return render_template('main/slink.html', customer_id=cus_id)
         if not is_customer():
             cus_id = uuid.uuid4().hex
             CustomersController().create_user(cus_id=cus_id)
@@ -46,7 +46,7 @@ def slink():
     except Exception as err:
         flash('Something Went Wrong. Try Again', 'danger')
         logging.error(f'error from slink occurred due to {err}')
-    return render_template('slink.html')
+    return render_template('main/slink.html')
 
 
 @main_blueprint.route('/slink_it', methods=['POST'])
@@ -60,13 +60,13 @@ def slink_it():
                                                customer_id=session['cus_id'])
                 LinksController().set_long_link(slink_id=short_code, long_link=long_link)
                 flash('Slink Created', 'success')
-                return redirect(url_for('panel'))
+                return redirect(url_for('main.panel'))
             except Exception as err:
                 flash('Something Went Wrong. Try Again', 'danger')
                 logging.error(f'error from slink_it occurred due to {err}')
     else:
         flash('Please Retry', 'danger')
-    return render_template('slink.html')
+    return render_template('main/slink.html')
 
 
 @main_blueprint.route('/panel')
@@ -76,13 +76,13 @@ def panel():
             customer_id = session['cus_id']
             result = LinksController().show_slink(customer_id=customer_id)
             if not is_registered_customer():
-                return render_template('panel.html', slink_data=result)
+                return render_template('main/panel.html', slink_data=result)
             customer_status = session['Registered']
-            return render_template('panel.html', cus_status=customer_status, slink_data=result)
+            return render_template('main/panel.html', cus_status=customer_status, slink_data=result)
         except Exception as err:
             flash('Something Went Wrong. Try Again', 'danger')
             logging.error(f'error from panel occurred due to {err}')
-    return redirect(url_for('slink'))
+    return redirect(url_for('main.slink'))
 
 
 

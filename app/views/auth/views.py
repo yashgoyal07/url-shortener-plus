@@ -34,7 +34,7 @@ def login():
             flash('Email or Password is incorrect', 'danger')
             logging.error(f'error from login occurred due to {err}')
 
-    return render_template('login.html')
+    return render_template('auth/login.html')
 
 
 @auth_blueprint.route('/logout')
@@ -77,4 +77,4 @@ def signup():
         except Exception as err:
             flash('Something Went Wrong. Try Again', 'danger')
             logging.error(f'error from signup occurred due to {err}')
-    return render_template('signup.html')
+    return render_template('auth/signup.html')
