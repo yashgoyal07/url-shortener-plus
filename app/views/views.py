@@ -2,16 +2,12 @@ import time
 import uuid
 import logging
 from flask import render_template, request, session, flash, redirect, url_for
-from application import app
 from helpers.utils import is_registered_customer, short_code_generator, is_customer
 from controllers.links_controller import LinksController
 from controllers.customers_controller import CustomersController
+from . import main_blueprint
 
-
-app.secret_key = b'\xce\xdd(B\xdd\xf1\x19\x04\x8c\xf0 BV\x93e\x8c'
-
-
-@app.route('/sl/<slink_id>')
+@main_blueprint.route('/sl/<slink_id>')
 def redirection(slink_id):
     try:
         start_time = time.time()
@@ -37,7 +33,7 @@ def redirection(slink_id):
         return "Link Expired or Not Exist"
 
 
-@app.route('/')
+@main_blueprint.route('/')
 def slink():
     try:
         if is_registered_customer():
@@ -53,7 +49,7 @@ def slink():
     return render_template('slink.html')
 
 
-@app.route('/slink_it', methods=['POST'])
+@main_blueprint.route('/slink_it', methods=['POST'])
 def slink_it():
     if is_registered_customer() or is_customer():
         long_link = request.form.get('long_link')
@@ -73,7 +69,7 @@ def slink_it():
     return render_template('slink.html')
 
 
-@app.route('/panel')
+@main_blueprint.route('/panel')
 def panel():
     if is_registered_customer() or is_customer():
         try:
@@ -89,7 +85,7 @@ def panel():
     return redirect(url_for('slink'))
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@main_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     if is_registered_customer():
         return redirect('panel')
@@ -120,14 +116,14 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/logout')
+@main_blueprint.route('/logout')
 def logout():
     session.pop('cus_id', None)
     session.pop('Registered', None)
     return redirect(url_for('slink'))
 
 
-@app.route('/signup', methods=['GET', 'POST'])
+@main_blueprint.route('/signup', methods=['GET', 'POST'])
 def signup():
     if is_registered_customer():
         return redirect('panel')
@@ -162,6 +158,3 @@ def signup():
             logging.error(f'error from signup occurred due to {err}')
     return render_template('signup.html')
 
-
-if __name__ == '__main__':
-    app.run(debug=True)
