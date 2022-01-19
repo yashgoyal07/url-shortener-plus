@@ -26,3 +26,18 @@ create_links_table = f"""CREATE TABLE `url_shortener`.`links` (
   PRIMARY KEY (`slink`),
   UNIQUE INDEX `slink_UNIQUE` (`slink` ASC) VISIBLE);
 """
+
+create_db = f"""CREATE DATABASE {MysqlConfig.USER_DATABASE};"""
+
+empty_customer_table = f"""DELETE FROM {MysqlConfig.USER_DATABASE}.{MysqlConfig.CUSTOMERS_TABLE};"""
+empty_links_table = f"""DELETE FROM {MysqlConfig.USER_DATABASE}.{MysqlConfig.LINKS_TABLE};"""
+
+drop_db = f"""DROP DATABASE {MysqlConfig.USER_DATABASE};"""
+
+db_exist = f"""SHOW DATABASES LIKE '{MysqlConfig.USER_DATABASE}';"""
+
+customers_table_exist = f"""SELECT * FROM information_schema.tables
+WHERE table_name = '{MysqlConfig.CUSTOMERS_TABLE}';"""
+
+links_table_exist = f"""SELECT * FROM information_schema.tables
+WHERE table_name = '{MysqlConfig.LINKS_TABLE}';"""

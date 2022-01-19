@@ -10,13 +10,17 @@ class RedisModel(object):
         self.instance_config = RedisConfig().INSTANCE_CONFIG.get(self.infra_env, {})
 
     def get_connection(self):
-        connection = redis.Redis(host=self.instance_config.get("host"),
-                                 port=self.instance_config.get("port"),
-                                 db=self.instance_config.get("db"),
-                                 password=self.instance_config.get("password"),
-                                 socket_timeout=self.instance_config.get("socket_timeout"),
-                                 )
-        return connection
+        try:
+            connection = redis.Redis(host=self.instance_config.get("host"),
+                                    port=self.instance_config.get("port"),
+                                    db=self.instance_config.get("db"),
+                                    password=self.instance_config.get("password"),
+                                    socket_timeout=self.instance_config.get("socket_timeout"),
+                                    )
+            return connection
+        except Exception as err:
+            logging.error(f'error from get_connection occurred due to {err}')
+            raise
 
     def get(self, redis_key):
         try:
