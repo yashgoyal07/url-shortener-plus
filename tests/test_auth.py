@@ -1,11 +1,11 @@
 def test_signup(client):
     """
     GIVEN a Flask application
-    WHEN the '/login' page is posted to (POST)
+    WHEN the '/signup' page is posted to (POST)
     THEN check the response is valid
     """
     response = client.post('/signup',
-                            data=dict(name='Kalua', email='kalua79@gmail.com', mobile='9638527417', password='KalUrl@1'),
+                            data=dict(name='Kalua', email='Kalua79@gmail.com', mobile='9638527417', password='KalUrl@1'),
                             follow_redirects=True)
     assert response.status_code == 200
     assert b"Registration request submitted" in response.data
