@@ -6,6 +6,7 @@ from helpers.utils import is_registered_customer, short_code_generator, is_custo
 from controllers.links_controller import LinksController
 from controllers.customers_controller import CustomersController
 from . import main_blueprint
+from tasks.celery_tasks import create_slink_background
 
 @main_blueprint.route('/sl/<slink_id>')
 def redirection(slink_id):
@@ -56,10 +57,15 @@ def slink_it():
         if long_link:
             try:
                 short_code = short_code_generator()
-                LinksController().create_slink(slink=short_code, long_link=long_link,
-                                               customer_id=session['cus_id'])
-                LinksController().set_long_link(slink_id=short_code, long_link=long_link)
-                flash('Slink Created', 'success')
+
+                # LinksController().create_slink(slink=short_code, long_link=long_link,
+                #                                customer_id=session['cus_id'])
+                # LinksController().set_long_link(slink_id=short_code, long_link=long_link)
+                # flash('Slink Created', 'success')
+
+                create_slink_background.delay(slink=short_code, long_link=long_link, customer_id=session['cus_id'])
+                flash('Slink Creation Request Submit', 'success')
+                
                 return redirect(url_for('main.panel'))
             except Exception as err:
                 flash('Something Went Wrong. Try Again', 'danger')
