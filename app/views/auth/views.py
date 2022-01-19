@@ -30,8 +30,10 @@ def login():
             session['Registered'] = 'Y'
             flash('You are Successfully Logged In', 'success')
             return redirect(url_for('main.panel'))
-        except Exception as err:
+        except ValueError:
             flash('Email or Password is incorrect', 'danger')
+        except Exception as err:
+            flash('Something Went Wrong. Please Try Again', 'danger')
             logging.error(f'error from login occurred due to {err}')
 
     return render_template('auth/login.html')
@@ -39,10 +41,14 @@ def login():
 
 @auth_blueprint.route('/logout')
 def logout():
-    session.pop('cus_id', None)
-    session.pop('Registered', None)
-    return redirect(url_for('main.slink'))
-
+    try:
+        session.pop('cus_id', None)
+        session.pop('Registered', None)
+        flash('You are Successfully Logged Out', 'success')
+        return redirect(url_for('main.slink'))
+    except Exception as err:
+        flash('Something Went Wrong. Please Try Again', 'danger')
+        logging.error(f'error from logout occurred due to {err}')
 
 @auth_blueprint.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -83,7 +89,9 @@ def signup():
                 return redirect(url_for('main.panel'))
             else:
                 flash('This email id is already exist.', 'danger')
+        except ValueError:
+            flash('Please provide all details. Mobile can contain only digits.')
         except Exception as err:
-            flash('Something Went Wrong. Try Again', 'danger')
+            flash('Something Went Wrong. Please Try Again', 'danger')
             logging.error(f'error from signup occurred due to {err}')
     return render_template('auth/signup.html')
