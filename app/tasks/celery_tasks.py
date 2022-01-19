@@ -1,16 +1,21 @@
 from celery import Celery
 from controllers.mysql_controller import MysqlController
-from helpers.mysql_queries import update_customer
+from helpers.mysql_queries import update_customer, create_customer
 import logging
-
-import logging
-from models.mysql_model import MysqlModel
 from controllers.cache_controller import CacheController
-from helpers.mysql_queries import create_slink, show_slink, find_long_link
+from helpers.mysql_queries import create_slink
 from helpers.constants import SLINK_CACHE_KEY
 
 ### Instantiate Celery ###
 celery = Celery('simple_task', broker='amqp://localhost') 
+
+@celery.task
+def create_customer_background(cus_id, name, email, mobile, password):
+    try:
+        MysqlController().dml_query(query=create_customer, query_params=(cus_id, name, email, mobile, password))
+    except Exception as err:
+        logging.error(f'error from create_customer occurred due to {err}')
+        raise
 
 @celery.task
 def update_customer_background(name, email, mobile, password, cus_id):

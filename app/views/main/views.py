@@ -40,10 +40,6 @@ def slink():
         if is_registered_customer():
             cus_id = session['cus_id']
             return render_template('main/slink.html', customer_id=cus_id)
-        if not is_customer():
-            cus_id = uuid.uuid4().hex
-            CustomersController().create_user(cus_id=cus_id)
-            session['cus_id'] = cus_id
     except Exception as err:
         flash('Something Went Wrong. Try Again', 'danger')
         logging.error(f'error from slink occurred due to {err}')
@@ -52,6 +48,10 @@ def slink():
 
 @main_blueprint.route('/slink_it', methods=['POST'])
 def slink_it():
+    if not is_customer():
+        cus_id = uuid.uuid4().hex
+        CustomersController().create_user(cus_id=cus_id)
+        session['cus_id'] = cus_id
     if is_registered_customer() or is_customer():
         long_link = request.form.get('long_link')
         if long_link:

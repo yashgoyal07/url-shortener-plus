@@ -70,10 +70,16 @@ def signup():
                     session['Registered'] = 'Y'
                 else:
                     cus_id = uuid.uuid4().hex
-                    CustomersController().create_customer(cus_id=cus_id, name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password.lower())
+                    # CustomersController().create_customer(cus_id=cus_id, name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password.lower())
+
+                    celery_tasks.create_customer_background.delay(cus_id=cus_id, name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password.lower())
+
                     session['cus_id'] = cus_id
                     session['Registered'] = 'Y'
-                flash('You are Successfully Registered', 'success')
+
+                # flash('You are Successfully Registered', 'success')
+
+                flash('Registration request submitted', 'success')
                 return redirect(url_for('main.panel'))
             else:
                 flash('This email id is already exist.', 'danger')
