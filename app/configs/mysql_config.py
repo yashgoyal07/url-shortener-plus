@@ -1,6 +1,6 @@
 class MysqlConfig(object):
     INSTANCE_CONFIG = {'local': {
-        "host": "localhost",
+        "host": "db",
         "port": 3306,
         "username": "root",
         "password": "YasMys@1"

@@ -1,6 +1,6 @@
 class RedisConfig(object):
     INSTANCE_CONFIG = {'local': {
-        "host": "localhost",
+        "host": "redis",
         "port": 6379,
         "db": 0,
         "password": None,

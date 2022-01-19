@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/url-shortener-plus
+    environment:
+      FLASK_ENV: development
+    networks:
+      backend:
+  db:
+    image: "mysql:8.0.27"
+    ports:
+      - "3306:3306"
+    volumes:
+      - /storage/docker/mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: YasMys@1
+    networks:
+      backend:
+  redis:
+    image: "redis:alpine"
+
+networks:
+    backend:
