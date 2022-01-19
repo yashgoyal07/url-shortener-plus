@@ -4,7 +4,7 @@ from flask import render_template, request, session, flash, redirect, url_for
 from helpers.utils import is_registered_customer, is_customer
 from controllers.customers_controller import CustomersController
 from . import auth_blueprint
-
+from tasks import celery_tasks
 
 @auth_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
@@ -63,7 +63,10 @@ def signup():
             result = CustomersController().check_customer(email=email.lower())
             if not result:
                 if is_customer():
-                    CustomersController().update_customer(name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password, cus_id=session['cus_id'])
+                    # CustomersController().update_customer(name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password, cus_id=session['cus_id'])
+
+                    celery_tasks.update_customer_background.delay(name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password, cus_id=session['cus_id'])
+
                     session['Registered'] = 'Y'
                 else:
                     cus_id = uuid.uuid4().hex
