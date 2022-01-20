@@ -71,22 +71,22 @@ def signup():
                 if is_customer():
                     # CustomersController().update_customer(name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password, cus_id=session['cus_id'])
 
-                    celery_tasks.update_customer_background.delay(name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password, cus_id=session['cus_id'])
+                    # session['Registered'] = 'Y'
 
-                    session['Registered'] = 'Y'
+                    celery_tasks.update_customer_background.delay(name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password, cus_id=session['cus_id'])
                 else:
                     cus_id = uuid.uuid4().hex
                     # CustomersController().create_customer(cus_id=cus_id, name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password.lower())
 
+                    # session['cus_id'] = cus_id
+                    # session['Registered'] = 'Y'
+
                     celery_tasks.create_customer_background.delay(cus_id=cus_id, name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password.lower())
 
-                    session['cus_id'] = cus_id
-                    session['Registered'] = 'Y'
-
                 # flash('You are Successfully Registered', 'success')
+                # return redirect(url_for('main.panel'))
 
                 flash('Registration request submitted', 'success')
-                return redirect(url_for('main.panel'))
             else:
                 flash('This email id is already exist.', 'danger')
         except ValueError:
