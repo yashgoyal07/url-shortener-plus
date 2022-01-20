@@ -81,7 +81,7 @@ def signup():
                     # session['cus_id'] = cus_id
                     # session['Registered'] = 'Y'
 
-                    celery_tasks.create_customer_background.delay(cus_id=cus_id, name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password.lower())
+                    celery_tasks.create_customer_background.delay(cus_id=cus_id, name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password)
 
                 # flash('You are Successfully Registered', 'success')
                 # return redirect(url_for('main.panel'))
