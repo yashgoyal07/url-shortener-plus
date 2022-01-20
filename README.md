@@ -29,7 +29,7 @@ Start App in Browser
 
 ### Information Required
 
-if you want to connect to MySQL. Mysql user: root, Mysql Password: admin
+if you want to connect to MySQL. Mysql user: root, Mysql Password: YasMys@1
 
 if you want to connect to Rabbitmq. Rabbitmq user: guest, Rabbitmq password: guest
 ### What's New

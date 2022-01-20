@@ -3,7 +3,7 @@ class MysqlConfig(object):
         "host": "db",
         "port": 3306,
         "username": "root",
-        "password": "admin"
+        "password": "YasMys@1"
     }, 'qa': {
         "host": "10.11.XX.XX",
         "port": 3306,
