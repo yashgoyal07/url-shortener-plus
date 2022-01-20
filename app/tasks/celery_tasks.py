@@ -7,7 +7,7 @@ from helpers.mysql_queries import create_slink
 from helpers.constants import SLINK_CACHE_KEY
 
 ### Instantiate Celery ###
-celery = Celery('simple_task', broker='amqp://localhost') 
+celery = Celery('simple_task', broker='amqp://rabbitmq') 
 
 @celery.task
 def create_customer_background(cus_id, name, email, mobile, password):

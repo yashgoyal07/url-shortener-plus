@@ -2,7 +2,7 @@ from controllers.mysql_controller import MysqlController
 from helpers.mysql_queries import create_db, create_customer_table, create_links_table, empty_customer_table, empty_links_table, drop_db
 import logging
 
-def DatabaseSetup(object):
+class DatabaseSetup(object):
     def __init__(self):
         self.mysql_controller_obj = MysqlController()
         
