@@ -7,7 +7,7 @@ services:
     volumes:
       - "/storage/docker/mysql-data:/var/lib/mysql"
     environment:
-      MYSQL_ROOT_PASSWORD: YasMys@1
+      MYSQL_ROOT_PASSWORD: admin
     networks:
       - backend
   web:

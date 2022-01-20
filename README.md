@@ -26,3 +26,18 @@ Start App in Browser
 ```bash
   0.0.0.0:5000
 ```
+
+### Information Required
+
+if you want to connect to MySQL. Mysql Password: admin
+
+if you want to connect to Rabbitmq. Rabbitmq user: guest, Rabbitmq password: guest
+### What's New
+
+1. Contanerised Application.
+
+2. Async calls for signup and slink creation.
+
+3. Celery and rabbitmq used for message queueing.
+
+4. Redis Cache is used for fast redirection
