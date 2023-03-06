@@ -1,8 +1,9 @@
 import logging
-from models.mysql_model import MysqlModel
+
 from controllers.cache_controller import CacheController
-from helpers.mysql_queries import create_slink, show_slink, find_long_link
 from helpers.constants import SLINK_CACHE_KEY
+from helpers.mysql_queries import create_slink, show_slink, find_long_link, delete_slink
+from models.mysql_model import MysqlModel
 
 
 class LinksController(object):
@@ -10,9 +11,9 @@ class LinksController(object):
         self.mysql_model_obj = MysqlModel()
         self.cache_controller = CacheController()
 
-    def create_slink(self, slink, long_link, customer_id):
+    def create_slink(self, slink, link_name, long_link, customer_id):
         try:
-            self.mysql_model_obj.dml_query(query=create_slink, query_params=(slink, long_link, customer_id))
+            self.mysql_model_obj.dml_query(query=create_slink, query_params=(slink, link_name, long_link, customer_id))
         except Exception as err:
             logging.error(f'error from create_slink occured due to {err}')
             raise
@@ -46,7 +47,16 @@ class LinksController(object):
     def set_long_link(self, slink_id, long_link):
         try:
             slink_cache_key = SLINK_CACHE_KEY.format(slink_id=slink_id)
-            self.cache_controller.set(slink_cache_key, value=long_link, ex=15 * 24 * 3600)
+            self.cache_controller.set(slink_cache_key, value=long_link)
         except Exception as err:
             logging.error(f'error from set_long_link occurred due to {err}')
+            raise
+
+    def delete_slink(self, slink_id):
+        try:
+            slink_cache_key = SLINK_CACHE_KEY.format(slink_id=slink_id)
+            self.cache_controller.delete(slink_cache_key)
+            self.mysql_model_obj.dml_query(query=delete_slink, query_params=(slink_id,))
+        except Exception as err:
+            logging.error(f'error from delete_slink occurred due to {err}')
             raise

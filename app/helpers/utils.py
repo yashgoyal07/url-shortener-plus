@@ -1,5 +1,6 @@
 import os
 import random
+
 from flask import session
 
 
@@ -10,7 +11,7 @@ def get_environment():
 def short_code_generator():
     result = ""
     char_list = list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
-    for i in range(6):
+    for _ in range(6):
         result += random.choice(char_list)
     return result
 
