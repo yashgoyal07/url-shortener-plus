@@ -19,7 +19,7 @@ services:
     volumes:
       - ".:/url-shortener-plus"
     environment:
-      FLASK_ENV: development
+      FLASK_DEBUG: 0
     networks:
       - backend
   redis:

@@ -22,7 +22,7 @@ $ sudo docker-compose up
 Start App in Browser
 
 ```bash
-  0.0.0.0:5000
+  0.0.0.0:8000
 ```
 
 ### Information Required
