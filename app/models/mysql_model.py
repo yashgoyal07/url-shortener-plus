@@ -1,7 +1,9 @@
 import logging
+
 import mysql.connector
-from helpers.utils import get_environment
+
 from configs.mysql_config import MysqlConfig
+from helpers.utils import get_environment
 
 
 class MysqlModel(object):
@@ -12,10 +14,10 @@ class MysqlModel(object):
     def get_connection(self):
         try:
             connection = mysql.connector.connect(host=self.instance_config.get("host"),
-                                                port=self.instance_config.get("port"),
-                                                user=self.instance_config.get("username"),
-                                                password=self.instance_config.get("password"),
-                                                )
+                                                 port=self.instance_config.get("port"),
+                                                 user=self.instance_config.get("username"),
+                                                 password=self.instance_config.get("password"),
+                                                 )
             return connection
         except mysql.connector.Error as e:
             raise Exception(f'mysql error occurred due to {e.msg}', e.errno)
@@ -60,7 +62,7 @@ class MysqlModel(object):
         finally:
             if connection:
                 connection.close()
-    
+
     def ddl_query(self, query):
         connection = None
         try:

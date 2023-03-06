@@ -1,6 +1,7 @@
+import logging
+
 from controllers.mysql_controller import MysqlController
 from helpers.mysql_queries import create_customer, update_customer, create_user, find_customer, check_customer
-import logging
 
 
 class CustomersController(object):

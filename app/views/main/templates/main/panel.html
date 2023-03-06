@@ -28,12 +28,13 @@ Panel
     <div class="col-md-10 offset-md-1 mt-10">
         <div class="card bg-card">
             <div class="card-body">
-                <p class="card-text">{{ card.get('created') }}</p>
+                <h5 class="card-text">{{ card.get('link_name') }}</h5>
+                <p class="card-text" style="float:right;">{{ card.get('created_at') }}</p>
                 <p><a href="{{ card.get('long_link') }}" target="_blank" class="card-text">{{ card.get('long_link') }}</a></p>
                 <hr/>
-                <a href="sl/{{ card.get('slink') }}" target="_blank" id="shortlink">http://127.0.0.1:5000/sl/{{ card.get('slink') }}</a>
-                <button type="button" onclick="copyToClipboard('#shortlink')" class="ml-10 btn btn-outline-warning btn-sm">Copy</button>
-                <button type="button" class="ml-10 btn btn-outline-warning btn-sm">Delete</button>
+                <a href="sl/{{ card.get('slink') }}" target="_blank" id="shortlink">{{ current_host }}sl/{{ card.get('slink') }}</a>
+                <button type="button" onclick="copyToClipboard('{{ card.get('slink') }}')" class="ml-10 btn btn-outline-warning btn-sm">Copy</button>
+                <button type="button" onclick="httpGetAsync('{{ card.get('slink') }}')" class="ml-10 btn btn-outline-warning btn-sm">Delete</button>
             </div>
         </div>
     </div>
@@ -64,11 +65,21 @@ function topFunction() {
 }
 
 function copyToClipboard(element) {
+  console.log(element);
   var $temp = $("<input>");
   $("body").append($temp);
-  $temp.val($(element).text()).select();
+  var prefix = 'http://' + document.location.host + '/sl/';
+  $temp.val(prefix.concat(element)).select();
   document.execCommand("copy");
   $temp.remove();
+}
+
+function httpGetAsync(theUrl)
+{
+    console.log(theUrl);
+    var prefix = 'http://' + document.location.host + '/del_sl/';
+    var temp = prefix.concat(theUrl);
+    window.location.replace(temp);
 }
 
 </script>

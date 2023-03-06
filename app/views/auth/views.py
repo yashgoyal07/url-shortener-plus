@@ -1,10 +1,13 @@
-import uuid
 import logging
+import uuid
+
 from flask import render_template, request, session, flash, redirect, url_for
-from helpers.utils import is_registered_customer, is_customer
+
 from controllers.customers_controller import CustomersController
-from . import auth_blueprint
+from helpers.utils import is_registered_customer, is_customer
 from tasks import celery_tasks
+from . import auth_blueprint
+
 
 @auth_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
@@ -50,6 +53,7 @@ def logout():
         flash('Something Went Wrong. Please Try Again', 'danger')
         logging.error(f'error from logout occurred due to {err}')
 
+
 @auth_blueprint.route('/signup', methods=['GET', 'POST'])
 def signup():
     if is_registered_customer():
@@ -69,24 +73,40 @@ def signup():
             result = CustomersController().check_customer(email=email.lower())
             if not result:
                 if is_customer():
-                    # CustomersController().update_customer(name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password, cus_id=session['cus_id'])
+                    CustomersController().update_customer(name=name.lower(),
+                                                          email=email.lower(),
+                                                          mobile=mobile.lower(),
+                                                          password=password,
+                                                          cus_id=session['cus_id'])
 
-                    # session['Registered'] = 'Y'
+                    session['Registered'] = 'Y'
 
-                    celery_tasks.update_customer_background.delay(name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password, cus_id=session['cus_id'])
+                    # celery_tasks.update_customer_background.delay(name=name.lower(),
+                    #                                               email=email.lower(),
+                    #                                               mobile=mobile.lower(),
+                    #                                               password=password,
+                    #                                               cus_id=session['cus_id'])
                 else:
                     cus_id = uuid.uuid4().hex
-                    # CustomersController().create_customer(cus_id=cus_id, name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password.lower())
+                    CustomersController().create_customer(cus_id=cus_id,
+                                                          name=name.lower(),
+                                                          email=email.lower(),
+                                                          mobile=mobile.lower(),
+                                                          password=password)
 
-                    # session['cus_id'] = cus_id
-                    # session['Registered'] = 'Y'
+                    session['cus_id'] = cus_id
+                    session['Registered'] = 'Y'
 
-                    celery_tasks.create_customer_background.delay(cus_id=cus_id, name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password.lower())
+                    # celery_tasks.create_customer_background.delay(cus_id=cus_id,
+                    #                                               name=name.lower(),
+                    #                                               email=email.lower(),
+                    #                                               mobile=mobile.lower(),
+                    #                                               password=password)
 
-                # flash('You are Successfully Registered', 'success')
-                # return redirect(url_for('main.panel'))
+                flash('You are Successfully Registered', 'success')
+                return redirect(url_for('main.panel'))
 
-                flash('Registration request submitted', 'success')
+                # flash('Registration request submitted', 'success')
             else:
                 flash('This email id is already exist.', 'danger')
         except ValueError:

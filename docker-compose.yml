@@ -5,7 +5,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - "/storage/docker/mysql-data:/var/lib/mysql"
+      - "./mysql-data:/var/lib/mysql"
     environment:
       MYSQL_ROOT_PASSWORD: YasMys@1
     networks:
@@ -15,7 +15,7 @@ services:
       - db
     build: .
     ports:
-      - "5000:5000"
+      - "8000:5000"
     volumes:
       - ".:/url-shortener-plus"
     environment:
@@ -32,10 +32,10 @@ services:
     image: rabbitmq:3-management-alpine
     container_name: 'rabbitmq'
     ports:
-        - 5672:5672
-        - 15672:15672
+      - "5672:5672"
+      - "15672:15672"
     networks:
-        - backend
+      - backend
   worker:
     build:
       context: .
@@ -47,7 +47,7 @@ services:
     depends_on:
       - rabbitmq
     networks:
-        - backend
+      - backend
 
 networks:
-    backend:
+  backend:
